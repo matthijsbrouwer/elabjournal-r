@@ -1,0 +1,109 @@
+eLABJournal and R : introduction
+================
+
+Access to your eLABJournal data from R
+
+Use the elabjournal package
+
+``` r
+library(elabjournal)
+```
+
+Obtaining a REST API key
+------------------------
+
+The first time an elabjournal object is created from your system, a REST API key has to be entered.
+
+To obtain such a personal key
+
+-   login into <http://www.elabjournal.com>
+-   go to 'Apps & Connections'
+-   and click the 'Manage authentication' link
+
+Enter a description (for example 'R') and generate the token. Only the part behind the semicolumn is needed. This key can be entered when a REST API key is asked for.
+
+The key is stored by the elabjournal package in your systems keyring, and therefore the next time you create an elabjournal object, providing this key is not necessary. Be very careful not to give this key to other people, because it will provide them access to all your eLABJournal data! From the eLABJournal website, you can always revoke a REST API key if necessary.
+
+If you want to remove the key from your systems keyring, use
+
+    elabjournal::reset_key()
+
+Create an elabjournal object
+----------------------------
+
+First, an elabjournal object has to be created to access the [API](https://www.elabjournal.com/docs/api/index).
+
+``` r
+eLAB <- elabjournal::api()
+```
+
+    ## Welcome Matthijs Brouwer
+    ## Package 'elabjournal', version '0.1.0'
+    ## Your active group is 'Testgroup' (6727)
+
+This did create such an object, here named `eLAB`.
+
+From this object multipe methods are available to access your eLABJournal data:
+
+``` r
+eLAB
+```
+
+    ## eLABJournal API object - version 0.1.0 - authenticated as Matthijs Brouwer
+
+Active group
+------------
+
+Results from methods may depend on the active group.
+
+This *active group* is also used in the eLABJournal web-environment. So changing the active group in the web-environment may inluence results from the methods. And changing the active group using the API will influence the web-environment!
+
+The active group can be requested from the eLABJournal object:
+
+``` r
+#initial: 1056
+initialGroup <- eLAB$group()
+initialGroup$title()
+```
+
+    ## [1] "Group 'Testgroup' (6727)"
+
+It is possibe to change the active group if the new groupID is known. As mentioned before, this change will also effect the active group in the eLABJournal web-environment.
+
+``` r
+eLAB$set_group(6917)
+eLAB$group()$title()
+```
+
+    ## [1] "Group 'PBR Bioinformatics' (6917)"
+
+Changing the group can also be done by providing a group object.
+
+``` r
+eLAB$set_group(initialGroup)
+eLAB$group()$title()
+```
+
+    ## [1] "Group 'Testgroup' (6727)"
+
+Currently the eLABJournal API call to get all your joined groups does not seem to provide any data for non-admins. The functionality is however already implemented in this package:
+
+``` r
+#eLAB$groups()$all()
+```
+
+User details
+------------
+
+By providing the REST API key, the eLABJournal object can authenticate you automatically. So be very careful not to give this key to other people!
+
+``` r
+user <- eLAB$user()
+user
+```
+
+    ## User 'Matthijs Brouwer' (24700)
+
+``` r
+#View(user$data())
+```
