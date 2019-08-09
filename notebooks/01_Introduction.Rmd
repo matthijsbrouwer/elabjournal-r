@@ -1,6 +1,6 @@
 ---
 title: "eLABJournal and R : introduction"
-output: html_notebook
+output: github_document
 ---
 Access to your eLABJournal data from R
 
