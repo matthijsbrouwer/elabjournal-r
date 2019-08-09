@@ -39,6 +39,12 @@
     },
     data = function() {
       return(private$.data)
+    },
+    visualize = function() {
+      cat("Not implemented")
+    },
+    show = function() {
+      cat("Not implemented")
     }
   )
 

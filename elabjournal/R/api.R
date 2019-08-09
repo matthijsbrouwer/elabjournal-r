@@ -1,5 +1,6 @@
 library(httr)
 library(rjson)
+library(DiagrammeR)
 
 .api <- R6Class(
   classname="api",
